@@ -8,6 +8,10 @@ import ar.com.nubank.model.figures.Figure;
 import ar.com.nubank.model.figures.Robot;
 import ar.com.nubank.model.grid.Grid;
 import ar.com.nubank.utils.GridCache;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,37 +19,34 @@ import java.util.Map;
 import static ar.com.nubank.model.enums.Direction.*;
 import static ar.com.nubank.model.enums.Direction.DOWN;
 
+@Service
+
 public class RobotService {
 
     private Map<Integer, Robot> robotsCache;
 
-    private static RobotService instance;
-    private DinosaurService dinosaurService;
+    @Autowired
+    private GridCache gridCache;
 
-    private Grid grid;
+    @Autowired
+    private DinosaurService dinosaurService;
 
     private int robotIds = 0;
 
 
-    public static RobotService instance() {
-        if(instance == null){
-            instance = new RobotService();
-        }
-        return instance;
-    }
 
-    private RobotService(){
-        GridCache gridCache = GridCache.instance();
-        this.grid = gridCache.getGrid();
+
+    public RobotService(){
+
         this.robotsCache = new HashMap<Integer, Robot>();
-        this.dinosaurService = DinosaurService.instance();
+
     }
 
     public void addRobot(int row, int col, int direction) throws ElementAlreadyPresentException {
-        if(!grid.hasElementAt(row,col)){
+        if(!gridCache.getGrid().hasElementAt(row,col)){
             int id = robotIds++;
             Robot r = new Robot(id, row,col,direction);
-            grid.setElementAt(r,row,col);
+            gridCache.getGrid().setElementAt(r,row,col);
             robotsCache.put(id,r);
         }else{
             throw new ElementAlreadyPresentException(row,col);
@@ -128,29 +129,29 @@ public class RobotService {
         if((row-1) < 0 ){
             throw new CannotMoveRobotException("Out of bounds");
         }
-        if(grid.hasElementAt(row-1,col)){
+        if(gridCache.getGrid().hasElementAt(row-1,col)){
             throw  new ElementAlreadyPresentException(row-1,col);
         }
 
         r.setRow(row-1);
-        grid.setElementAt(null,row,col);
-        grid.setElementAt(r,row-1,col);
+        gridCache.getGrid().setElementAt(null,row,col);
+        gridCache.getGrid().setElementAt(r,row-1,col);
     }
 
     private void moveRobotRight(int id) throws CannotMoveRobotException, ElementAlreadyPresentException {
         Robot r = robotsCache.get(id);
         int row = r.getRow();
         int col = r.getCol();
-        if((col+1) >= grid.width() ){
+        if((col+1) >= gridCache.getGrid().width() ){
             throw new CannotMoveRobotException("Out of bounds");
         }
-        if(grid.hasElementAt(row,col+1)){
+        if(gridCache.getGrid().hasElementAt(row,col+1)){
             throw  new ElementAlreadyPresentException(row,col+1);
         }
 
         r.setCol(col+1);
-        grid.setElementAt(null,row,col);
-        grid.setElementAt(r,row,col+1);
+        gridCache.getGrid().setElementAt(null,row,col);
+        gridCache.getGrid().setElementAt(r,row,col+1);
     }
 
     private void moveRobotLeft(int id) throws CannotMoveRobotException, ElementAlreadyPresentException {
@@ -161,13 +162,13 @@ public class RobotService {
         if((col-1) < 0 ){
             throw new CannotMoveRobotException("Out of bounds");
         }
-        if(grid.hasElementAt(row,col-1)){
+        if(gridCache.getGrid().hasElementAt(row,col-1)){
             throw  new ElementAlreadyPresentException(row,col-1);
         }
 
         r.setCol(col-1);
-        grid.setElementAt(null,row,col);
-        grid.setElementAt(r,row,col-1);
+        gridCache.getGrid().setElementAt(null,row,col);
+        gridCache.getGrid().setElementAt(r,row,col-1);
     }
 
     private void moveRobotDown(int id) throws CannotMoveRobotException, ElementAlreadyPresentException {
@@ -175,16 +176,16 @@ public class RobotService {
         int row = r.getRow();
         int col = r.getCol();
 
-        if((row+1) >= grid.height() ){
+        if((row+1) >= gridCache.getGrid().height() ){
             throw new CannotMoveRobotException("Out of bounds");
         }
-        if(grid.hasElementAt(row+1,col) ){
+        if(gridCache.getGrid().hasElementAt(row+1,col) ){
             throw  new ElementAlreadyPresentException(row+1,col);
         }
 
         r.setRow(row+1);
-        grid.setElementAt(null,row,col);
-        grid.setElementAt(r,row+1,col);
+        gridCache.getGrid().setElementAt(null,row,col);
+        gridCache.getGrid().setElementAt(r,row+1,col);
     }
 
 

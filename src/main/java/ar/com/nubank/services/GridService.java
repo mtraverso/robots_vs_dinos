@@ -5,21 +5,19 @@ import ar.com.nubank.exceptions.ElementAlreadyPresentException;
 import ar.com.nubank.exceptions.RobotNotFoundException;
 import ar.com.nubank.model.grid.Grid;
 import ar.com.nubank.utils.GridCache;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
+
+@Service
 
 public class GridService {
+    @Autowired
     private GridCache gridCache;
-    private static GridService instance;
 
+    public GridService(){
 
-    public static GridService instance() {
-        if(instance == null){
-            instance = new GridService();
-        }
-        return instance;
-    }
-
-    private GridService(){
-        gridCache = GridCache.instance();
     }
 
     public void createGrid(int x, int y){
@@ -33,4 +31,7 @@ public class GridService {
     }
 
 
+    public boolean getGridStatusOk() {
+        return gridCache.getGrid() != null;
+    }
 }

@@ -5,38 +5,41 @@ import ar.com.nubank.model.figures.Dinosaur;
 import ar.com.nubank.model.figures.Figure;
 import ar.com.nubank.model.grid.Grid;
 import ar.com.nubank.utils.GridCache;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class DinosaurService {
-    private static DinosaurService instance;
+@Service
 
-    private Grid grid;
+public class DinosaurService {
+
+
+
 
     private int dinosaurIds = 0;
 
+    @Autowired
+    private GridCache gridCache;
 
     private Map<Integer, Dinosaur> dinosaurCache;
 
-    private DinosaurService(){
-        GridCache gridCache = GridCache.instance();
-        this.grid = gridCache.getGrid();
+    public DinosaurService(){
+
+        //this.grid = gridCache.getGrid();
         this.dinosaurCache = new HashMap<Integer, Dinosaur>();
     }
 
-    public static DinosaurService instance(){
-        if(instance == null){
-            instance = new DinosaurService();
-        }
-        return instance;
-    }
+
 
     public void addDinosaur(int row, int col) throws ElementAlreadyPresentException {
-        if(!grid.hasElementAt(row,col)){
+        if(!gridCache.getGrid().hasElementAt(row,col)){
             int id = dinosaurIds++;
             Dinosaur d = new Dinosaur(id, row,col);
-            grid.setElementAt(d,row,col);
+            gridCache.getGrid().setElementAt(d,row,col);
             dinosaurCache.put(id,d);
         }else{
             throw new ElementAlreadyPresentException(row,col);
@@ -45,11 +48,11 @@ public class DinosaurService {
 
     public void killDinosaur(int row, int col) {
 
-        if(row >=0 && row < grid.height() && col >= 0 && col < grid.width()) {
-            Figure f = grid.getElementAt(row,col);
+        if(row >=0 && row < gridCache.getGrid().height() && col >= 0 && col < gridCache.getGrid().width()) {
+            Figure f = gridCache.getGrid().getElementAt(row,col);
             if (f instanceof Dinosaur) {
                 Dinosaur d = (Dinosaur) f;
-                grid.setElementAt(null,row,col);
+                gridCache.getGrid().setElementAt(null,row,col);
                 dinosaurCache.remove(d.getId());
 
             }

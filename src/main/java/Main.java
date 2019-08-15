@@ -1,86 +1,106 @@
 import ar.com.nubank.exceptions.CannotMoveRobotException;
 import ar.com.nubank.exceptions.ElementAlreadyPresentException;
 import ar.com.nubank.exceptions.RobotNotFoundException;
+import ar.com.nubank.services.DinosaurService;
 import ar.com.nubank.services.GridService;
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
+import ar.com.nubank.services.RobotService;
+import com.sun.net.httpserver.HttpServer;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.IOException;
-import java.net.URI;
 
 public class Main {
 
-    public static final String BASE_URI = "http://localhost:8080/myapp/";
+    public static final String BASE_URI = "http://localhost:8080/nubank/";
 
-    public static HttpServer startServer() {
-        // create a resource config that scans for JAX-RS resources and providers
-        // in com.example package
-        final ResourceConfig rc = new ResourceConfig().packages("ar.com.nubank.rest");
+    public static void startServer() throws Exception {
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath("/");
 
-        // create and start a new instance of grizzly http server
-        // exposing the Jersey application at BASE_URI
-        return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
+        Server jettyServer = new Server(8080);
+        jettyServer.setHandler(context);
+
+        ServletHolder jerseyServlet = context.addServlet(
+                org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+        jerseyServlet.setInitOrder(0);
+
+        // Tells the Jersey Servlet which REST service/class to load.
+        jerseyServlet.setInitParameter(
+                "jersey.config.server.provider.packages",
+                 "ar.com.nubank.rest");
+
+        try {
+            jettyServer.start();
+            jettyServer.join();
+        } finally {
+            jettyServer.destroy();
+        }
     }
 
-    public static void main(String[] args) throws IOException {
-        final HttpServer server = startServer();
-        System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-        System.in.read();
-        server.stop();
+    public static void main(String[] args) throws Exception {
+        startServer();
+
+
+        //execute();
 
     }
 
 
     public static void execute(){
-        GridService service = GridService.instance();
+        GridService gridService = GridService.instance();
 
-        service.createGrid(10,10);
+        gridService.createGrid(10,10);
+
+        RobotService robotService = RobotService.instance();
+        DinosaurService dinosaurService = DinosaurService.instance();
 
         try {
-            service.addRobot(0,0,1);
+            robotService.addRobot(0,0,1);
             //service.addRobot(1,1,1);
 //            service.addRobot(5,5,0);
-            service.addDinosaur(0,1);
-            service.addDinosaur(5,6);
+            dinosaurService.addDinosaur(0,1);
+            dinosaurService.addDinosaur(5,6);
 
-            service.printGrid();
+            System.out.println(gridService.printGrid());
 
             System.out.println("-----------------------");
 
 
 
 
-            service.attack(0);
+            robotService.attack(0);
+            System.out.println(gridService.printGrid());
 
-            service.moveForward(0);
-
-
-            service.turnRight(0);
+            robotService.moveForward(0);
 
 
-            service.moveForward(0);
+            robotService.turnRight(0);
 
 
-            service.moveForward(0);
-
-            service.moveForward(0);
+            robotService.moveForward(0);
 
 
-            service.moveForward(0);
+            robotService.moveForward(0);
+
+            robotService.moveForward(0);
 
 
-            service.moveForward(0);
-            service.turnLeft(0);
+            robotService.moveForward(0);
 
-            service.moveForward(0);
-            service.moveForward(0);
-            service.moveForward(0);
-            service.moveForward(0);
-            service.attack(0);
 
-            service.printGrid();
+            robotService.moveForward(0);
+            robotService.turnLeft(0);
+
+            robotService.moveForward(0);
+            robotService.moveForward(0);
+            robotService.moveForward(0);
+            robotService.moveForward(0);
+            System.out.println(gridService.printGrid());
+            robotService.attack(0);
+
+            System.out.println(gridService.printGrid());
         } catch (ElementAlreadyPresentException e) {
             e.printStackTrace();
         } catch (RobotNotFoundException e) {

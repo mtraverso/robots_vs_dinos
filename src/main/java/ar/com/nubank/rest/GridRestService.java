@@ -6,6 +6,7 @@ import ar.com.nubank.services.GridService;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 
 @Path("/grid")
 public class GridRestService {
@@ -14,18 +15,14 @@ public class GridRestService {
 
 
     @POST
-    public String create(){
+    public Response create(){
         gridService.createGrid(50,50);
-        return "OK";
+        return Response.ok().build();
     }
 
     @GET
-    public String get(){
-        return gridService.printGrid();
-    }
+    public Response get(){
+        return Response.ok(gridService.printGrid()).build();
 
-    @GET
-    public String getImage(){
-        return gridService.printGrid();
     }
 }

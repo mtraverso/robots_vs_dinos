@@ -28,8 +28,6 @@ public class GridService {
 
     }
 
-
-
     public String printGrid(){
         return gridCache.getGrid().printGrid();
     }

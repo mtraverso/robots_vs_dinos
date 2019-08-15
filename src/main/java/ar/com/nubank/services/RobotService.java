@@ -1,8 +1,6 @@
 package ar.com.nubank.services;
 
-import ar.com.nubank.exceptions.CannotMoveRobotException;
-import ar.com.nubank.exceptions.ElementAlreadyPresentException;
-import ar.com.nubank.exceptions.RobotNotFoundException;
+import ar.com.nubank.exceptions.*;
 import ar.com.nubank.model.figures.Dinosaur;
 import ar.com.nubank.model.figures.Figure;
 import ar.com.nubank.model.figures.Robot;
@@ -42,7 +40,13 @@ public class RobotService {
 
     }
 
-    public void addRobot(int row, int col, int direction) throws ElementAlreadyPresentException {
+    public void addRobot(int row, int col, int direction) throws ElementAlreadyPresentException, GridNotInitializedException, CannotAddElementException {
+        if(gridCache.getGrid() == null){
+            throw new GridNotInitializedException();
+        }
+        if(row < 0 || row >= gridCache.getGrid().height() || col < 0 || col >= gridCache.getGrid().width()){
+            throw new CannotAddElementException("Out of bounds");
+        }
         if(!gridCache.getGrid().hasElementAt(row,col)){
             int id = robotIds++;
             Robot r = new Robot(id, row,col,direction);

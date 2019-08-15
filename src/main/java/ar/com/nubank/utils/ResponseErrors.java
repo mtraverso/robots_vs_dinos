@@ -13,6 +13,10 @@ public class ResponseErrors {
     }
 
     public static Response outOfBounds(){
+        return Response.status(500).entity("Element moved out of bounds").build();
+    }
+
+    public static Response cannotAddElement() {
         return Response.status(500).entity("Element added out of bounds").build();
     }
 }

@@ -1,6 +1,8 @@
 package ar.com.nubank.rest;
 
+import ar.com.nubank.exceptions.CannotAddElementException;
 import ar.com.nubank.exceptions.ElementAlreadyPresentException;
+import ar.com.nubank.exceptions.GridNotInitializedException;
 import ar.com.nubank.model.figures.Dinosaur;
 import ar.com.nubank.model.grid.Location;
 import ar.com.nubank.services.DinosaurService;
@@ -25,13 +27,15 @@ public class DinosaurRestService {
 
     @POST
     public Response addDinosaur(Location location){
-        if(!gridService.getGridStatusOk()){
-            return Response.status(500).entity("Grid not initialized").build();
-        }
+
         try {
             dinosaurService.addDinosaur(location.getRow(),location.getCol());
         } catch (ElementAlreadyPresentException e) {
             return ResponseErrors.elementAlreadyPresent(e.getRow(),e.getCol());
+        } catch (GridNotInitializedException e) {
+            return ResponseErrors.gridNotReady();
+        } catch (CannotAddElementException e) {
+            return ResponseErrors.cannotAddElement();
         }
         return Response.ok().build();
     }

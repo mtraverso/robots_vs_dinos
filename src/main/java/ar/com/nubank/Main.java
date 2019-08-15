@@ -1,8 +1,6 @@
 package ar.com.nubank;
 
-import ar.com.nubank.exceptions.CannotMoveRobotException;
-import ar.com.nubank.exceptions.ElementAlreadyPresentException;
-import ar.com.nubank.exceptions.RobotNotFoundException;
+import ar.com.nubank.exceptions.*;
 import ar.com.nubank.services.DinosaurService;
 import ar.com.nubank.services.GridService;
 import ar.com.nubank.services.RobotService;
@@ -95,7 +93,7 @@ public class Main {
             robotService.attack(0);
 
             System.out.println(gridService.printGrid());
-        } catch (ElementAlreadyPresentException | RobotNotFoundException | CannotMoveRobotException e) {
+        } catch (ElementAlreadyPresentException | RobotNotFoundException | CannotMoveRobotException | GridNotInitializedException | CannotAddElementException e) {
             e.printStackTrace();
         }
 

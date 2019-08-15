@@ -1,6 +1,8 @@
 package ar.com.nubank.services;
 
+import ar.com.nubank.exceptions.CannotAddElementException;
 import ar.com.nubank.exceptions.ElementAlreadyPresentException;
+import ar.com.nubank.exceptions.GridNotInitializedException;
 import ar.com.nubank.model.figures.Dinosaur;
 import ar.com.nubank.model.figures.Figure;
 import ar.com.nubank.model.grid.Grid;
@@ -35,7 +37,13 @@ public class DinosaurService {
 
 
 
-    public void addDinosaur(int row, int col) throws ElementAlreadyPresentException {
+    public void addDinosaur(int row, int col) throws ElementAlreadyPresentException, GridNotInitializedException, CannotAddElementException {
+        if(gridCache.getGrid() == null){
+            throw new GridNotInitializedException();
+        }
+        if(row < 0 || row >= gridCache.getGrid().height() || col < 0 || col >= gridCache.getGrid().width()){
+            throw new CannotAddElementException("Out of bounds");
+        }
         if(!gridCache.getGrid().hasElementAt(row,col)){
             int id = dinosaurIds++;
             Dinosaur d = new Dinosaur(id, row,col);

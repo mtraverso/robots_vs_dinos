@@ -1,6 +1,8 @@
 package ar.com.nubank.rest;
 
+import ar.com.nubank.exceptions.CannotAddElementException;
 import ar.com.nubank.exceptions.ElementAlreadyPresentException;
+import ar.com.nubank.exceptions.GridNotInitializedException;
 import ar.com.nubank.model.grid.Location;
 import ar.com.nubank.model.grid.RobotLocation;
 import ar.com.nubank.services.GridService;
@@ -29,14 +31,21 @@ public class RobotRestService {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create( RobotLocation value) throws ElementAlreadyPresentException {
-        if(!gridService.getGridStatusOk()){
-            return ResponseErrors.gridNotReady();
-        }
+    public Response create( RobotLocation value)  {
+
         if(value.getDirection()>3){
             return Response.status(400).build();
         }
-        robotService.addRobot(value.getRow(),value.getCol(),value.getDirection());
+
+        try {
+            robotService.addRobot(value.getRow(),value.getCol(),value.getDirection());
+        } catch (ElementAlreadyPresentException e) {
+            return ResponseErrors.elementAlreadyPresent(e.getRow(),e.getCol());
+        } catch (GridNotInitializedException e) {
+            return ResponseErrors.gridNotReady();
+        } catch (CannotAddElementException e) {
+            return ResponseErrors.cannotAddElement();
+        }
 
         return Response.ok().build();
     }

@@ -3,6 +3,7 @@ package ar.com.nubank.rest;
 import ar.com.nubank.model.grid.Grid;
 import ar.com.nubank.services.GridService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.GET;
@@ -21,14 +22,17 @@ public class GridRestService {
     @POST
     public Response create(){
         if(gridService.getGridStatusOk()){
-           return Response.status(400).entity("Grid already initialized").build();
+           return Response.status(HttpStatus.CONFLICT.value()).entity("Grid already initialized").build();
         }
         gridService.createGrid(50,50);
-        return Response.ok().build();
+        return Response.status(HttpStatus.CREATED.value()).build();
     }
 
     @GET
     public Response get(){
+        if(!gridService.getGridStatusOk()){
+            return Response.status(HttpStatus.NOT_FOUND.value()).entity("Grid not initialized").build();
+        }
         return Response.ok(gridService.printGrid()).build();
 
     }

@@ -112,7 +112,8 @@ public class RobotService {
 
     }
 
-    public void attack(int id) {
+    public void attack(int id) throws RobotNotFoundException {
+        checkExistingRobot(id);
         Robot r = robotsCache.get(id);
         int row = r.getRow();
         int col = r.getCol();

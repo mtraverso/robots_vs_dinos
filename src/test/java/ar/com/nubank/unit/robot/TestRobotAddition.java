@@ -1,8 +1,6 @@
-package ar.com.nubank.unit;
+package ar.com.nubank.unit.robot;
 
-import ar.com.nubank.exceptions.CannotAddElementException;
-import ar.com.nubank.exceptions.ElementAlreadyPresentException;
-import ar.com.nubank.exceptions.GridNotInitializedException;
+import ar.com.nubank.exceptions.*;
 import ar.com.nubank.model.enums.Direction;
 import ar.com.nubank.model.figures.Figure;
 import ar.com.nubank.model.figures.Robot;
@@ -24,7 +22,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 
-public class TestRobotService {
+public class TestRobotAddition {
 
     @InjectMocks
     RobotService robotService;
@@ -97,5 +95,9 @@ public class TestRobotService {
             Assert.that(e instanceof CannotAddElementException,"Exception not correct");
         }
     }
+
+
+
+
 
 }

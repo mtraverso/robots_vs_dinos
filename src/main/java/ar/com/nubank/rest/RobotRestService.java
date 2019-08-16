@@ -9,6 +9,7 @@ import ar.com.nubank.services.GridService;
 import ar.com.nubank.services.RobotService;
 import ar.com.nubank.utils.ResponseErrors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.Consumes;
@@ -34,7 +35,7 @@ public class RobotRestService {
     public Response create( RobotLocation value)  {
 
         if(value.getDirection()>3){
-            return Response.status(400).build();
+            return Response.status(HttpStatus.BAD_REQUEST.value()).build();
         }
 
         try {
@@ -47,6 +48,6 @@ public class RobotRestService {
             return ResponseErrors.cannotAddElement();
         }
 
-        return Response.ok().build();
+        return Response.status(HttpStatus.CREATED.value()).build();
     }
 }

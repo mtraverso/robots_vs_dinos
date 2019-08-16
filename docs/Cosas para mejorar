@@ -1,0 +1,19 @@
+Mejoras
+
+Analizar tema concurrencia de rest services
+
+Direccion -> enum, no lista de ints
+
+No sobre-ingenieria -> Puede estar todo en un servicio -> Game Service
+
+Mantener mismo formateo de codigo
+
+Sacar el concepto de id, solo buscar en un determinado casillero, para ver que tenemos y ejecutar sobre eso => Para multiplayer?
+
+Etags -> Manejar estados por concurrencia
+
+Hacer objetos inmutables
+
+Cambiar chain of responsibility el robot conoce la grilla y sabe como moverse, la grilla solo ejecuta el movimiento.
+    Paso coordenadas a donde me muevo y la grilla agrega, y saca el anterior.
+

@@ -2,7 +2,7 @@ package ar.com.nubank.model.figures;
 
 import static ar.com.nubank.model.enums.Direction.*;
 
-public class Robot implements Figure {
+public class Robot implements Entity {
     private int id;
     private int row;
     private int col;
@@ -15,12 +15,12 @@ public class Robot implements Figure {
         this.facingDirection = facingDirection;
     }
 
-    public void turnLeft(){
-        facingDirection = facingDirection == 0? 3: facingDirection -1;
+    public void turnLeft() {
+        facingDirection = facingDirection == 0 ? 3 : facingDirection - 1;
     }
 
-    public void turnRight(){
-        facingDirection = facingDirection == 3? 0: facingDirection +1;
+    public void turnRight() {
+        facingDirection = facingDirection == 3 ? 0 : facingDirection + 1;
     }
 
     public int getRow() {
@@ -38,7 +38,7 @@ public class Robot implements Figure {
     @Override
     public String toString() {
         String s = "";
-        switch (facingDirection){
+        switch (facingDirection) {
             case UP:
                 s = "↑";
                 break;

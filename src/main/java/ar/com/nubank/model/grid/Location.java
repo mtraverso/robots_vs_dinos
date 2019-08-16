@@ -9,26 +9,26 @@ import java.io.Serializable;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 public class Location implements Serializable  {
-    private Integer row;
-    private Integer col;
+    private int row;
+    private int col;
 
 
     public Location() {
     }
 
-    public Integer getRow() {
+    public int getRow() {
         return row;
     }
 
-    public void setRow(Integer row) {
+    public void setRow(int row) {
         this.row = row;
     }
 
-    public Integer getCol() {
+    public int getCol() {
         return col;
     }
 
-    public void setCol(Integer col) {
+    public void setCol(int col) {
         this.col = col;
     }
 

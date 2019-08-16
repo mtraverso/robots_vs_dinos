@@ -1,42 +1,41 @@
 package ar.com.nubank.model.grid;
 
-import ar.com.nubank.model.figures.Figure;
+import ar.com.nubank.model.figures.Entity;
 
 public class Grid {
-    private Figure[][] grid;
+    private final Entity[][] grid;
 
     public Grid(int rows, int cols) {
-        grid = new Figure[rows][cols];
+        grid = new Entity[rows][cols];
     }
 
-    public Figure getElementAt(int row, int col){
+    public Entity getElementAt(int row, int col) {
         return grid[row][col];
     }
 
-    public boolean hasElementAt(int row, int col){
+    public boolean hasElementAt(int row, int col) {
         return grid[row][col] != null;
     }
 
-    public void setElementAt(Figure f, int row, int col){
+    public void setElementAt(Entity f, int row, int col) {
         grid[row][col] = f;
     }
 
-    public int width(){
+    public int width() {
         return grid[0].length;
     }
 
-    public int height(){
+    public int height() {
         return grid.length;
     }
 
-    public String printGrid()
-    {
+    public String printGrid() {
         StringBuilder buffer = new StringBuilder();
-        for (Figure[] figures : grid) {
-            for (Figure figure : figures) {
+        for (Entity[] entities : grid) {
+            for (Entity entity : entities) {
                 buffer.append("|");
-                if (figure != null)
-                    buffer.append(" ").append(figure).append(" ");
+                if (entity != null)
+                    buffer.append(" ").append(entity).append(" ");
                 else
                     buffer.append("   ");
             }
@@ -47,7 +46,6 @@ public class Grid {
         return buffer.toString();
 
     }
-
 
 
 }

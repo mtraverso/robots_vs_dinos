@@ -2,10 +2,9 @@ package ar.com.nubank.unit.robot;
 
 import ar.com.nubank.exceptions.*;
 import ar.com.nubank.model.enums.Direction;
-import ar.com.nubank.model.figures.Figure;
+import ar.com.nubank.model.figures.Entity;
 import ar.com.nubank.model.figures.Robot;
 import ar.com.nubank.model.grid.Grid;
-import ar.com.nubank.services.GridService;
 import ar.com.nubank.services.RobotService;
 import ar.com.nubank.utils.GridCache;
 import org.junit.Before;
@@ -48,7 +47,7 @@ public class TestRobotAddition {
         Assert.that(gridCache.getGrid().hasElementAt(5,5),"Element not found at 5,5");
         Assert.that(!gridCache.getGrid().hasElementAt(5,6),"Found element at 5,6");
 
-        Figure fig = gridCache.getGrid().getElementAt(5,5);
+        Entity fig = gridCache.getGrid().getElementAt(5,5);
         Assert.that(fig instanceof Robot,"Element isn't robot");
         assert fig instanceof Robot;
         Robot r = (Robot)fig;
@@ -68,7 +67,7 @@ public class TestRobotAddition {
         Assert.that(gridCache.getGrid().hasElementAt(5,5),"Element not found at 5,5");
         Assert.that(!gridCache.getGrid().hasElementAt(5,6),"Found element at 5,6");
 
-        Figure fig = gridCache.getGrid().getElementAt(5,5);
+        Entity fig = gridCache.getGrid().getElementAt(5,5);
         Assert.that(fig instanceof Robot,"Element isn't robot");
         assert fig instanceof Robot;
         Robot r = (Robot)fig;

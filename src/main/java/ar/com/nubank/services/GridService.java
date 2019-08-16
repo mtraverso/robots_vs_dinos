@@ -16,17 +16,17 @@ public class GridService {
     @Autowired
     private GridCache gridCache;
 
-    public GridService(){
+    public GridService() {
 
     }
 
-    public void createGrid(int x, int y){
-        Grid grid = new Grid(x,y);
+    public void createGrid(int x, int y) {
+        Grid grid = new Grid(x, y);
         gridCache.setGrid(grid);
 
     }
 
-    public String printGrid(){
+    public String printGrid() {
         return gridCache.getGrid().printGrid();
     }
 

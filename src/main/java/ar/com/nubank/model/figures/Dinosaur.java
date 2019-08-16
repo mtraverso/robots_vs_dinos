@@ -1,6 +1,6 @@
 package ar.com.nubank.model.figures;
 
-public class Dinosaur implements  Figure {
+public class Dinosaur implements Entity {
 
     private int id;
     private int row;

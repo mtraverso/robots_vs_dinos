@@ -2,7 +2,7 @@ package ar.com.nubank.unit.robot;
 
 import ar.com.nubank.exceptions.*;
 import ar.com.nubank.model.enums.Direction;
-import ar.com.nubank.model.figures.Figure;
+import ar.com.nubank.model.figures.Entity;
 import ar.com.nubank.model.figures.Robot;
 import ar.com.nubank.model.grid.Grid;
 import ar.com.nubank.services.DinosaurService;
@@ -51,7 +51,7 @@ public class TestRobotMovement {
             Assert.that(false, "Exception thrown");
         }
 
-        Figure f = gridCache.getGrid().getElementAt(0,1);
+        Entity f = gridCache.getGrid().getElementAt(0,1);
         Assert.that(f != null, "Robot not in expected position");
          f = gridCache.getGrid().getElementAt(1,1);
         Assert.that(f == null, "Robot in unexpected position");
@@ -83,7 +83,7 @@ public class TestRobotMovement {
             Assert.that(false, "Exception thrown");
         }
 
-        Figure f = gridCache.getGrid().getElementAt(1,0);
+        Entity f = gridCache.getGrid().getElementAt(1,0);
         Assert.that(f != null, "Robot not in expected position");
         f = gridCache.getGrid().getElementAt(1,1);
         Assert.that(f == null, "Robot in unexpected position");
@@ -115,7 +115,7 @@ public class TestRobotMovement {
             Assert.that(false, "Exception thrown");
         }
 
-        Figure f = gridCache.getGrid().getElementAt(1,49);
+        Entity f = gridCache.getGrid().getElementAt(1,49);
         Assert.that(f != null, "Robot not in expected position");
         f = gridCache.getGrid().getElementAt(1,48);
         Assert.that(f == null, "Robot in unexpected position");
@@ -147,7 +147,7 @@ public class TestRobotMovement {
             Assert.that(false, "Exception thrown");
         }
 
-        Figure f = gridCache.getGrid().getElementAt(49,1);
+        Entity f = gridCache.getGrid().getElementAt(49,1);
         Assert.that(f != null, "Robot not in expected position");
         f = gridCache.getGrid().getElementAt(48,1);
         Assert.that(f == null, "Robot in unexpected position");
@@ -179,7 +179,7 @@ public class TestRobotMovement {
             Assert.that(false, "Exception thrown");
         }
 
-        Figure f = gridCache.getGrid().getElementAt(0,1);
+        Entity f = gridCache.getGrid().getElementAt(0,1);
         Assert.that(f != null, "Robot not in expected position");
         f = gridCache.getGrid().getElementAt(1,1);
         Assert.that(f == null, "Robot in unexpected position");
@@ -211,7 +211,7 @@ public class TestRobotMovement {
             Assert.that(false, "Exception thrown");
         }
 
-        Figure f = gridCache.getGrid().getElementAt(1,0);
+        Entity f = gridCache.getGrid().getElementAt(1,0);
         Assert.that(f != null, "Robot not in expected position");
         f = gridCache.getGrid().getElementAt(1,1);
         Assert.that(f == null, "Robot in unexpected position");
@@ -243,7 +243,7 @@ public class TestRobotMovement {
             Assert.that(false, "Exception thrown");
         }
 
-        Figure f = gridCache.getGrid().getElementAt(1,49);
+        Entity f = gridCache.getGrid().getElementAt(1,49);
         Assert.that(f != null, "Robot not in expected position");
         f = gridCache.getGrid().getElementAt(1,48);
         Assert.that(f == null, "Robot in unexpected position");
@@ -275,7 +275,7 @@ public class TestRobotMovement {
             Assert.that(false, "Exception thrown");
         }
 
-        Figure f = gridCache.getGrid().getElementAt(49,1);
+        Entity f = gridCache.getGrid().getElementAt(49,1);
         Assert.that(f != null, "Robot not in expected position");
         f = gridCache.getGrid().getElementAt(48,1);
         Assert.that(f == null, "Robot in unexpected position");
@@ -307,7 +307,7 @@ public class TestRobotMovement {
             Assert.that(false, "Exception thrown");
         }
 
-        Figure f = gridCache.getGrid().getElementAt(0,0);
+        Entity f = gridCache.getGrid().getElementAt(0,0);
         Assert.that(f instanceof Robot,"Not a robot");
         Robot r = (Robot)f;
         Assert.that(r.getFacingDirection() == Direction.LEFT,"Not facing correct direction");
@@ -329,7 +329,7 @@ public class TestRobotMovement {
             Assert.that(false, "Exception thrown");
         }
 
-        Figure f = gridCache.getGrid().getElementAt(0,0);
+        Entity f = gridCache.getGrid().getElementAt(0,0);
         Assert.that(f instanceof Robot,"Not a robot");
         Robot r = (Robot)f;
         Assert.that(r.getFacingDirection() == Direction.RIGHT,"Not facing correct direction");

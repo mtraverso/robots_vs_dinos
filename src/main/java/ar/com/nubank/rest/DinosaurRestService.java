@@ -20,18 +20,23 @@ import javax.ws.rs.core.Response;
 @Path("/dinosaur")
 public class DinosaurRestService {
     @Autowired
-    private DinosaurService dinosaurService;
+    private final DinosaurService dinosaurService;
 
     @Autowired
-    private GridService gridService;
+    private final GridService gridService;
+
+    public DinosaurRestService(DinosaurService dinosaurService, GridService gridService) {
+        this.dinosaurService = dinosaurService;
+        this.gridService = gridService;
+    }
 
     @POST
-    public Response addDinosaur(Location location){
+    public Response addDinosaur(Location location) {
 
         try {
-            dinosaurService.addDinosaur(location.getRow(),location.getCol());
+            dinosaurService.addDinosaur(location.getRow(), location.getCol());
         } catch (ElementAlreadyPresentException e) {
-            return ResponseErrors.elementAlreadyPresent(e.getRow(),e.getCol());
+            return ResponseErrors.elementAlreadyPresent(e.getRow(), e.getCol());
         } catch (GridNotInitializedException e) {
             return ResponseErrors.gridNotReady();
         } catch (CannotAddElementException e) {

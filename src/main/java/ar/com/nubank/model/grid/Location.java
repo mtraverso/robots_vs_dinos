@@ -16,6 +16,11 @@ public class Location implements Serializable  {
     public Location() {
     }
 
+    public Location(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+
     public int getRow() {
         return row;
     }

@@ -1,7 +1,7 @@
 package ar.com.nubank.integration;
 
 import ar.com.nubank.integration.base.BaseIntegrationTest;
-import ar.com.nubank.services.GridService;
+import ar.com.nubank.services.GameService;
 import ar.com.nubank.utils.GridCache;
 import org.junit.After;
 import org.junit.FixMethodOrder;
@@ -16,7 +16,7 @@ import sun.jvm.hotspot.utilities.Assert;
 public class GridIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
-    GridService gridService;
+    GameService gameService;
 
     @Autowired
     GridCache gridCache;
@@ -42,7 +42,7 @@ public class GridIntegrationTest extends BaseIntegrationTest {
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/grid",null, String.class);
         Assert.that(resp.getStatusCode().equals(HttpStatus.CREATED),"Error code different");
 
-        Assert.that(gridService.getGridStatusOk(),"Grid not initialized");
+        Assert.that(gameService.getGridStatusOk(),"Grid not initialized");
 
     }
 
@@ -61,11 +61,11 @@ public class GridIntegrationTest extends BaseIntegrationTest {
     @Test
 
     public void testD_PrintGrid(){
+        ResponseEntity<String> resp = testRestTemplate.postForEntity("/grid",null, String.class);
 
-
-        ResponseEntity<String> resp = testRestTemplate.getForEntity("/grid",String.class);
-        Assert.that(resp.getStatusCode().equals(HttpStatus.OK), "Grid not ok");
-        Assert.that(resp.getBody() != null, "Response body not ok");
+        ResponseEntity<String> resp2 = testRestTemplate.getForEntity("/grid",String.class);
+        Assert.that(resp2.getStatusCode().equals(HttpStatus.OK), "Grid not ok");
+        Assert.that(resp2.getBody() != null, "Response body not ok");
     }
 
 }

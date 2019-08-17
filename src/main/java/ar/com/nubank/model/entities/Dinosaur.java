@@ -1,24 +1,17 @@
-package ar.com.nubank.model.figures;
+package ar.com.nubank.model.entities;
 
 public class Dinosaur implements Entity {
 
-    private int id;
+
     private int row;
     private int col;
 
-    public Dinosaur(int id, int row, int col) {
-        this.id = id;
+    public Dinosaur(int row, int col) {
+
         this.row = row;
         this.col = col;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getRow() {
         return row;

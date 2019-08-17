@@ -1,13 +1,15 @@
 package ar.com.nubank.model.grid;
 
-public class RobotLocation extends Location {
-    private int direction;
+import ar.com.nubank.model.enums.Direction;
 
-    public int getDirection() {
+public class RobotLocation extends Location {
+    private Direction direction;
+
+    public Direction getDirection() {
         return direction;
     }
 
-    public void setDirection(int direction) {
+    public void setDirection(Direction direction) {
         this.direction = direction;
     }
 }

@@ -1,6 +1,9 @@
 package ar.com.nubank.model.grid;
 
-import ar.com.nubank.model.figures.Entity;
+import ar.com.nubank.exceptions.*;
+import ar.com.nubank.model.entities.Entity;
+import ar.com.nubank.model.entities.Movable;
+import ar.com.nubank.model.entities.Robot;
 
 public class Grid {
     private final Entity[][] grid;
@@ -9,16 +12,52 @@ public class Grid {
         grid = new Entity[rows][cols];
     }
 
-    public Entity getElementAt(int row, int col) {
-        return grid[row][col];
+    public Entity getElementAt(Location loc ) {
+
+        return grid[loc.getRow()][loc.getCol()];
     }
 
-    public boolean hasElementAt(int row, int col) {
-        return grid[row][col] != null;
+    public void clearElementAt(Location loc ) throws CannotClearElementAtPosition {
+        if(isOutOfBounds(loc)){
+            throw new CannotClearElementAtPosition("Out of bounds");
+        }
+        grid[loc.getRow()][loc.getCol()] = null;
     }
 
-    public void setElementAt(Entity f, int row, int col) {
-        grid[row][col] = f;
+    public boolean hasElementAt(int row, int col){
+        return hasElementAt(new Location(row,col));
+    }
+
+    public boolean hasElementAt(Location loc) {
+        return grid[loc.getRow()][loc.getCol()] != null;
+    }
+
+    public void setElementAt(Entity f, Location loc) {
+        grid[loc.getRow()][loc.getCol()] = f;
+    }
+
+    public void moveElement(Location from, Location to) throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
+        if(getElementAt(from) == null){
+            throw new NoElementFoundInPosition(from.getRow(),from.getCol());
+        }
+        if(! (getElementAt(from) instanceof Movable)){
+            throw new ElementNotMovableException(from.getRow(),from.getCol());
+        }
+
+        if(isOutOfBounds(to)){
+            throw new CannotMoveElementException("Out of bounds");
+        }
+        if(getElementAt(to) != null){
+            throw new ElementAlreadyPresentException(to.getRow(),to.getCol());
+        }
+        Robot e = (Robot)getElementAt(from);
+
+        clearElementAt(from);
+        setElementAt(e,to);
+    }
+
+    private boolean isOutOfBounds(Location to) {
+        return to.getRow() < 0 || to.getRow() >= height() || to.getCol()<0 || to.getCol() >= width();
     }
 
     public int width() {
@@ -48,4 +87,7 @@ public class Grid {
     }
 
 
+    public Entity getElementAt(int row, int col) {
+        return getElementAt(new Location(row,col));
+    }
 }

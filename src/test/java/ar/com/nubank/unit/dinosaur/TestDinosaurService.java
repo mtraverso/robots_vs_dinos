@@ -4,7 +4,8 @@ import ar.com.nubank.exceptions.CannotAddElementException;
 import ar.com.nubank.exceptions.ElementAlreadyPresentException;
 import ar.com.nubank.exceptions.GridNotInitializedException;
 import ar.com.nubank.model.grid.Grid;
-import ar.com.nubank.services.DinosaurService;
+import ar.com.nubank.model.grid.Location;
+import ar.com.nubank.services.GameService;
 import ar.com.nubank.utils.GridCache;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class TestDinosaurService {
     GridCache gridCache;
 
     @InjectMocks
-    DinosaurService dinosaurService;
+    GameService gameService;
 
     @Before
     public void setUp(){
@@ -35,29 +36,14 @@ public class TestDinosaurService {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
 
         try {
-            dinosaurService.addDinosaur(0,0);
+            gameService.addDinosaur(0,0);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
-        Assert.that(gridCache.getGrid().getElementAt(0,0) != null, "Dinosaur not present");
+        Assert.that(gridCache.getGrid().getElementAt(new Location(0,0)) != null, "Dinosaur not present");
     }
 
-    @Test
-    public void killDinosaur(){
-        when(gridCache.getGrid()).thenReturn(new Grid(50,50));
 
-        try {
-            dinosaurService.addDinosaur(0,0);
-        } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
-            Assert.that(false, "Exception thrown");
-        }
-
-        Assert.that(gridCache.getGrid().getElementAt(0,0) != null, "Dinosaur not present");
-
-        dinosaurService.killDinosaur(0,0);
-
-        Assert.that(gridCache.getGrid().getElementAt(0,0) == null, "Dinosaur present");
-    }
 
 }

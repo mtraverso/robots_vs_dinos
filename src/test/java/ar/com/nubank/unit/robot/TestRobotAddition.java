@@ -2,10 +2,10 @@ package ar.com.nubank.unit.robot;
 
 import ar.com.nubank.exceptions.*;
 import ar.com.nubank.model.enums.Direction;
-import ar.com.nubank.model.figures.Entity;
-import ar.com.nubank.model.figures.Robot;
+import ar.com.nubank.model.entities.Entity;
+import ar.com.nubank.model.entities.Robot;
 import ar.com.nubank.model.grid.Grid;
-import ar.com.nubank.services.RobotService;
+import ar.com.nubank.services.GameService;
 import ar.com.nubank.utils.GridCache;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 public class TestRobotAddition {
 
     @InjectMocks
-    RobotService robotService;
+    GameService robotService;
 
     @Mock
     GridCache gridCache;
@@ -89,7 +89,7 @@ public class TestRobotAddition {
     public void addRobotOutOfBounds(){
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         try {
-            robotService.addRobot(-1,5, Direction.UP);
+            robotService.addRobot(0,-1, Direction.UP);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(e instanceof CannotAddElementException,"Exception not correct");
         }

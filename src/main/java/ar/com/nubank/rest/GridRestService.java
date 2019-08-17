@@ -1,7 +1,6 @@
 package ar.com.nubank.rest;
 
-import ar.com.nubank.model.grid.Grid;
-import ar.com.nubank.services.GridService;
+import ar.com.nubank.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -16,24 +15,30 @@ import javax.ws.rs.core.Response;
 public class GridRestService {
 
     @Autowired
-    private GridService gridService;
+    public GridRestService(GameService gameService) {
+        this.gameService = gameService;
+    }
+
+
+
+    private final GameService gameService;
 
 
     @POST
     public Response create(){
-        if(gridService.getGridStatusOk()){
+        if(gameService.getGridStatusOk()){
            return Response.status(HttpStatus.CONFLICT.value()).entity("Grid already initialized").build();
         }
-        gridService.createGrid(50,50);
+        gameService.createGrid(50,50);
         return Response.status(HttpStatus.CREATED.value()).build();
     }
 
     @GET
     public Response get(){
-        if(!gridService.getGridStatusOk()){
+        if(!gameService.getGridStatusOk()){
             return Response.status(HttpStatus.NOT_FOUND.value()).entity("Grid not initialized").build();
         }
-        return Response.ok(gridService.printGrid()).build();
+        return Response.ok(gameService.printGrid()).build();
 
     }
 }

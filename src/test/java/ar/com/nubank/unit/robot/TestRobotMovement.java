@@ -2,11 +2,11 @@ package ar.com.nubank.unit.robot;
 
 import ar.com.nubank.exceptions.*;
 import ar.com.nubank.model.enums.Direction;
-import ar.com.nubank.model.figures.Entity;
-import ar.com.nubank.model.figures.Robot;
+import ar.com.nubank.model.entities.Entity;
+import ar.com.nubank.model.entities.Robot;
 import ar.com.nubank.model.grid.Grid;
-import ar.com.nubank.services.DinosaurService;
-import ar.com.nubank.services.RobotService;
+import ar.com.nubank.model.grid.Location;
+import ar.com.nubank.services.GameService;
 import ar.com.nubank.utils.GridCache;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,10 +20,7 @@ import static org.mockito.Mockito.when;
 public class TestRobotMovement {
 
     @InjectMocks
-    RobotService robotService;
-
-    @Mock
-    DinosaurService dinosaurService;
+    GameService gameService;
 
     @Mock
     GridCache gridCache;
@@ -39,15 +36,18 @@ public class TestRobotMovement {
     public void moveBackwardUp(){
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         //Add robot
+
+        Location init = new Location(1,1);
+
         try {
-            robotService.addRobot(1,1, Direction.DOWN);
+            gameService.addRobot(1,1, Direction.DOWN);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.moveBackward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
+            gameService.moveBackward(1,1);
+        } catch (CannotMoveElementException | NoElementFoundInPosition | ElementNotMovableException | ElementAlreadyPresentException | CannotClearElementAtPosition e) {
             Assert.that(false, "Exception thrown");
         }
 
@@ -57,9 +57,9 @@ public class TestRobotMovement {
         Assert.that(f == null, "Robot in unexpected position");
 
         try {
-            robotService.moveBackward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
-            Assert.that(e instanceof CannotMoveRobotException, "Wrong exception thrown");
+            gameService.moveBackward(0,1);
+        } catch (CannotMoveElementException | NoElementFoundInPosition | ElementNotMovableException | ElementAlreadyPresentException | CannotClearElementAtPosition e) {
+            Assert.that(e instanceof CannotMoveElementException, "Wrong exception thrown");
         }
 
         f = gridCache.getGrid().getElementAt(0,1);
@@ -72,14 +72,14 @@ public class TestRobotMovement {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         //Add robot
         try {
-            robotService.addRobot(1,1,Direction.RIGHT);
+            gameService.addRobot(1,1, Direction.RIGHT);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.moveBackward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
+            gameService.moveBackward(1,1);
+        } catch ( CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
             Assert.that(false, "Exception thrown");
         }
 
@@ -89,9 +89,9 @@ public class TestRobotMovement {
         Assert.that(f == null, "Robot in unexpected position");
 
         try {
-            robotService.moveBackward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
-            Assert.that(e instanceof CannotMoveRobotException, "Wrong exception thrown");
+            gameService.moveBackward(1,0);
+        } catch ( CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
+            Assert.that(e instanceof CannotMoveElementException, "Wrong exception thrown");
         }
 
         f = gridCache.getGrid().getElementAt(1,0);
@@ -104,14 +104,14 @@ public class TestRobotMovement {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         //Add robot
         try {
-            robotService.addRobot(1,48,Direction.LEFT);
+            gameService.addRobot(1,48, Direction.LEFT);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.moveBackward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
+            gameService.moveBackward(1,48);
+        } catch ( CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
             Assert.that(false, "Exception thrown");
         }
 
@@ -121,9 +121,9 @@ public class TestRobotMovement {
         Assert.that(f == null, "Robot in unexpected position");
 
         try {
-            robotService.moveBackward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
-            Assert.that(e instanceof CannotMoveRobotException, "Wrong exception thrown");
+            gameService.moveBackward(1,49);
+        } catch ( CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
+            Assert.that(e instanceof CannotMoveElementException, "Wrong exception thrown");
         }
 
         f = gridCache.getGrid().getElementAt(1,49);
@@ -136,14 +136,14 @@ public class TestRobotMovement {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         //Add robot
         try {
-            robotService.addRobot(48,1,Direction.UP);
+            gameService.addRobot(48,1, Direction.UP);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.moveBackward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
+            gameService.moveBackward(48,1);
+        } catch ( CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
             Assert.that(false, "Exception thrown");
         }
 
@@ -153,9 +153,9 @@ public class TestRobotMovement {
         Assert.that(f == null, "Robot in unexpected position");
 
         try {
-            robotService.moveBackward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
-            Assert.that(e instanceof CannotMoveRobotException, "Wrong exception thrown");
+            gameService.moveBackward(49,1);
+        } catch (CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
+            Assert.that(e instanceof CannotMoveElementException, "Wrong exception thrown");
         }
 
         f = gridCache.getGrid().getElementAt(49,1);
@@ -168,14 +168,14 @@ public class TestRobotMovement {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         //Add robot
         try {
-            robotService.addRobot(1,1, Direction.UP);
+            gameService.addRobot(1,1, Direction.UP);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.moveForward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
+            gameService.moveForward(1,1);
+        } catch (CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
             Assert.that(false, "Exception thrown");
         }
 
@@ -185,9 +185,9 @@ public class TestRobotMovement {
         Assert.that(f == null, "Robot in unexpected position");
 
         try {
-            robotService.moveForward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
-            Assert.that(e instanceof CannotMoveRobotException, "Wrong exception thrown");
+            gameService.moveForward(0,1);
+        } catch (CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
+            Assert.that(e instanceof CannotMoveElementException, "Wrong exception thrown");
         }
 
         f = gridCache.getGrid().getElementAt(0,1);
@@ -200,14 +200,14 @@ public class TestRobotMovement {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         //Add robot
         try {
-            robotService.addRobot(1,1,Direction.LEFT);
+            gameService.addRobot(1,1, Direction.LEFT);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.moveForward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
+            gameService.moveForward(1,1);
+        } catch (CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
             Assert.that(false, "Exception thrown");
         }
 
@@ -217,9 +217,9 @@ public class TestRobotMovement {
         Assert.that(f == null, "Robot in unexpected position");
 
         try {
-            robotService.moveForward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
-            Assert.that(e instanceof CannotMoveRobotException, "Wrong exception thrown");
+            gameService.moveForward(1,0);
+        } catch (CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
+            Assert.that(e instanceof CannotMoveElementException, "Wrong exception thrown");
         }
 
         f = gridCache.getGrid().getElementAt(1,0);
@@ -232,14 +232,14 @@ public class TestRobotMovement {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         //Add robot
         try {
-            robotService.addRobot(1,48,Direction.RIGHT);
+            gameService.addRobot(1,48, Direction.RIGHT);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.moveForward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
+            gameService.moveForward(1,48);
+        } catch (CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
             Assert.that(false, "Exception thrown");
         }
 
@@ -249,9 +249,9 @@ public class TestRobotMovement {
         Assert.that(f == null, "Robot in unexpected position");
 
         try {
-            robotService.moveForward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
-            Assert.that(e instanceof CannotMoveRobotException, "Wrong exception thrown");
+            gameService.moveForward(1,49);
+        } catch (CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
+            Assert.that(e instanceof CannotMoveElementException, "Wrong exception thrown");
         }
 
         f = gridCache.getGrid().getElementAt(1,49);
@@ -264,14 +264,14 @@ public class TestRobotMovement {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         //Add robot
         try {
-            robotService.addRobot(48,1,Direction.DOWN);
+            gameService.addRobot(48,1, Direction.DOWN);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.moveForward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
+            gameService.moveForward(48,1);
+        } catch (CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
             Assert.that(false, "Exception thrown");
         }
 
@@ -281,9 +281,9 @@ public class TestRobotMovement {
         Assert.that(f == null, "Robot in unexpected position");
 
         try {
-            robotService.moveForward(0);
-        } catch (RobotNotFoundException | CannotMoveRobotException | ElementAlreadyPresentException e) {
-            Assert.that(e instanceof CannotMoveRobotException, "Wrong exception thrown");
+            gameService.moveForward(49,1);
+        } catch (CannotMoveElementException | ElementAlreadyPresentException | NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
+            Assert.that(e instanceof CannotMoveElementException, "Wrong exception thrown");
         }
 
         f = gridCache.getGrid().getElementAt(49,1);
@@ -296,14 +296,14 @@ public class TestRobotMovement {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
 
         try {
-            robotService.addRobot(0,0,Direction.UP);
+            gameService.addRobot(0,0, Direction.UP);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.turnLeft(0);
-        } catch (RobotNotFoundException e) {
+            gameService.turnLeft(0,0);
+        } catch ( NoElementFoundInPosition | ElementNotMovableException e) {
             Assert.that(false, "Exception thrown");
         }
 
@@ -318,14 +318,14 @@ public class TestRobotMovement {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
 
         try {
-            robotService.addRobot(0,0,Direction.UP);
+            gameService.addRobot(0,0, Direction.UP);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.turnRight(0);
-        } catch (RobotNotFoundException e) {
+            gameService.turnRight(0,0);
+        } catch ( NoElementFoundInPosition | ElementNotMovableException e) {
             Assert.that(false, "Exception thrown");
         }
 
@@ -340,26 +340,26 @@ public class TestRobotMovement {
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
 
         try {
-            dinosaurService.addDinosaur(0,1);
-            dinosaurService.addDinosaur(1,0);
-            dinosaurService.addDinosaur(1,2);
-            dinosaurService.addDinosaur(3,1);
+            gameService.addDinosaur(0,1);
+            gameService.addDinosaur(1,0);
+            gameService.addDinosaur(1,2);
+            gameService.addDinosaur(2,1);
 
-            robotService.addRobot(1,1,Direction.UP);
+            gameService.addRobot(1,1, Direction.UP);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false, "Exception thrown");
         }
 
         try {
-            robotService.attack(0);
-        } catch (RobotNotFoundException e) {
+            gameService.attack(1,1);
+        } catch ( NoElementFoundInPosition | ElementNotMovableException | CannotClearElementAtPosition e) {
             Assert.that(false, "Exception thrown");
         }
 
         Assert.that(gridCache.getGrid().getElementAt(0,1) == null, "Dinosaur 1 not destroyed");
         Assert.that(gridCache.getGrid().getElementAt(1,0) == null, "Dinosaur 2 not destroyed");
         Assert.that(gridCache.getGrid().getElementAt(1,2) == null, "Dinosaur 3 not destroyed");
-        Assert.that(gridCache.getGrid().getElementAt(3,1) == null, "Dinosaur 4 not destroyed");
+        Assert.that(gridCache.getGrid().getElementAt(2,1) == null, "Dinosaur 4 not destroyed");
 
 
     }

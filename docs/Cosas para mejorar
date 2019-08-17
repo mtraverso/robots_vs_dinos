@@ -2,7 +2,7 @@ Mejoras
 
 Analizar tema concurrencia de rest services
 
-Direccion -> enum, no lista de ints
+Direccion -> enum, no lista de ints -> Done
 
 No sobre-ingenieria -> Puede estar todo en un servicio -> Game Service
 
@@ -12,7 +12,7 @@ Sacar el concepto de id, solo buscar en un determinado casillero, para ver que t
 
 Etags -> Manejar estados por concurrencia
 
-Hacer objetos inmutables
+Hacer objetos inmutables -> no me deja poner final en los rest services
 
 Cambiar chain of responsibility el robot conoce la grilla y sabe como moverse, la grilla solo ejecuta el movimiento.
     Paso coordenadas a donde me muevo y la grilla agrega, y saca el anterior.

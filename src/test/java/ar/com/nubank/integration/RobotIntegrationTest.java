@@ -3,8 +3,10 @@ package ar.com.nubank.integration;
 import ar.com.nubank.integration.base.BaseIntegrationTest;
 import ar.com.nubank.model.enums.Direction;
 import ar.com.nubank.model.grid.RobotLocation;
-import ar.com.nubank.services.GridService;
+import ar.com.nubank.services.GameService;
 import ar.com.nubank.utils.GridCache;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.After;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -18,7 +20,7 @@ import sun.jvm.hotspot.utilities.Assert;
 public class RobotIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
-    GridService gridService;
+    GameService gameService;
 
     @Autowired
     GridCache gridCache;
@@ -37,7 +39,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
         rl.setDirection(Direction.UP);
 
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/robot",rl,String.class);
-        Assert.that(resp.getStatusCode().equals(HttpStatus.NOT_FOUND), "Grid not ok");
+        Assert.that(resp.getStatusCode().equals(HttpStatus.FORBIDDEN), "Grid not ok");
         Assert.that(resp.getBody() != null, "Response body not ok");
     }
 
@@ -74,7 +76,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
         Assert.that(resp2.getStatusCode().equals(HttpStatus.CREATED),"Error code different");
 
         ResponseEntity<String> resp3 = testRestTemplate.postForEntity("/robot",rl,String.class);
-        Assert.that(resp3.getStatusCode().equals(HttpStatus.CONFLICT),"Error code different");
+        Assert.that(resp3.getStatusCode().equals(HttpStatus.FORBIDDEN),"Error code different");
 
     }
 
@@ -98,15 +100,18 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
     //Test adding a robot out of bounds of grid.
     @Test
     public void testE_CreateGridAddRobotIllegalFacingDirection(){
-        RobotLocation rl = new RobotLocation();
-        rl.setRow(1);
-        rl.setCol(1);
-        rl.setDirection(6);
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+        node.put("row",0);
+        node.put("col",0);
+        node.put("direction","UP");
+
 
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/grid",null, String.class);
         Assert.that(resp.getStatusCode().equals(HttpStatus.CREATED),"Error code different");
 
-        ResponseEntity<String> resp2 = testRestTemplate.postForEntity("/robot",rl,String.class);
+        ResponseEntity<String> resp2 = testRestTemplate.postForEntity("/robot",node.toString(),String.class);
+        System.out.println(resp2.getStatusCode());
         Assert.that(resp2.getStatusCode().equals(HttpStatus.BAD_REQUEST),"Error code different");
 
 

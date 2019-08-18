@@ -7,6 +7,7 @@ import ar.com.nubank.model.grid.Location;
 import ar.com.nubank.services.GameService;
 import ar.com.nubank.utils.ResponseErrors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.POST;
@@ -38,6 +39,6 @@ public class DinosaurRestService {
         } catch (CannotAddElementException e) {
             return ResponseErrors.cannotAddElement();
         }
-        return Response.ok().build();
+        return Response.status(HttpStatus.CREATED.value()).build();
     }
 }

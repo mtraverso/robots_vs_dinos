@@ -20,20 +20,14 @@ public class Robot implements Entity,Movable {
         this.gridCache = gridCache;
     }
 
+
+
     public void turnLeft() {
         facingDirection = facingDirection.left();
     }
 
     public void turnRight() {
         facingDirection = facingDirection.right();
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
     }
 
     public Direction getFacingDirection() {
@@ -47,13 +41,6 @@ public class Robot implements Entity,Movable {
         return s;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
-    }
 
     public void moveForward() throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
         int rowDest = this.row;

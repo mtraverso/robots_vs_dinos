@@ -3,6 +3,7 @@ package ar.com.nubank.integration.base;
 import ar.com.nubank.Main;
 import ar.com.nubank.configuration.JerseyConfig;
 import org.glassfish.jersey.test.JerseyTest;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,11 @@ public class BaseIntegrationTest   {
 
     public void setTestRestTemplate(TestRestTemplate testRestTemplate) {
         this.testRestTemplate = testRestTemplate;
+    }
+
+    @Test
+    public void test(){
+
     }
 }
 

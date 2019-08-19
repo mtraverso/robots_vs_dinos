@@ -15,7 +15,7 @@ import javax.ws.rs.core.Application;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class BaseIntegrationTest   {
+public abstract class BaseIntegrationTest   {
     @Autowired
     protected TestRestTemplate testRestTemplate;
 

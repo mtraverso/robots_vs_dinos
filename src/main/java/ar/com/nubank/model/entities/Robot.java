@@ -94,7 +94,7 @@ public class Robot implements Entity,Movable {
 
     }
 
-    private  void moveTo(Location to) throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
+    private void moveTo(Location to) throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
         gridCache.getGrid().moveElement(new Location(this.row, this.col),to);
 
     }

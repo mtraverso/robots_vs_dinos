@@ -1,5 +1,5 @@
 package ar.com.nubank.model.enums;
 
-public enum Turn {
+public enum TurnDirection {
     LEFT, RIGHT;
 }

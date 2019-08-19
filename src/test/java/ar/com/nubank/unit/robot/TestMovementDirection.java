@@ -17,7 +17,7 @@ import sun.jvm.hotspot.utilities.Assert;
 
 import static org.mockito.Mockito.when;
 
-public class TestRobotMovement {
+public class TestMovementDirection {
 
     @InjectMocks
     GameService gameService;

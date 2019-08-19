@@ -1,5 +1,5 @@
 package ar.com.nubank.model.enums;
 
-public enum Movement {
+public enum MovementDirection {
     FORWARD, BACKWARD;
 }

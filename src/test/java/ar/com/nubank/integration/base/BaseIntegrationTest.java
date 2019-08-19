@@ -27,10 +27,7 @@ public class BaseIntegrationTest   {
         this.testRestTemplate = testRestTemplate;
     }
 
-    @Test
-    public void test(){
 
-    }
 }
 
 

@@ -1,12 +1,12 @@
 package ar.com.nubank.rest;
 
 import ar.com.nubank.exceptions.*;
-import ar.com.nubank.model.enums.Movement;
-import ar.com.nubank.model.enums.Turn;
+import ar.com.nubank.model.enums.MovementDirection;
+import ar.com.nubank.model.enums.TurnDirection;
 import ar.com.nubank.model.grid.Location;
 import ar.com.nubank.model.grid.RobotLocation;
-import ar.com.nubank.model.grid.RobotMovement;
-import ar.com.nubank.model.grid.RobotTurn;
+import ar.com.nubank.model.grid.Movement;
+import ar.com.nubank.model.grid.Turn;
 import ar.com.nubank.services.GameService;
 import ar.com.nubank.utils.ResponseErrors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,14 +54,14 @@ public class RobotRestService {
     }
 
 
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/move")
-    public Response move( RobotMovement value)  {
+    public Response move( Movement value)  {
 
 
         try {
-            if(value.getMovement().equals(Movement.FORWARD)){
+            if(value.getMovementDirection().equals(MovementDirection.FORWARD)){
                 gameService.moveForward(value.getRow(),value.getCol());
             }else{
                 gameService.moveBackward(value.getRow(),value.getCol());
@@ -77,17 +77,17 @@ public class RobotRestService {
             return ResponseErrors.cannotMoveElement();
         }
 
-        return Response.status(HttpStatus.CREATED.value()).build();
+        return Response.status(HttpStatus.OK.value()).build();
     }
 
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/turn")
-    public Response turn( RobotTurn value)  {
+    public Response turn( Turn value)  {
 
 
         try {
-            if (value.getTurn().equals(Turn.LEFT)) {
+            if (value.getTurnDirection().equals(TurnDirection.LEFT)) {
                 gameService.turnLeft(value.getRow(), value.getCol());
             } else {
                 gameService.turnRight(value.getRow(), value.getCol());
@@ -102,7 +102,7 @@ public class RobotRestService {
         return Response.status(HttpStatus.OK.value()).build();
     }
 
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/attack")
     public Response attack( Location value)  {
@@ -121,6 +121,6 @@ public class RobotRestService {
             return ResponseErrors.cannotMoveElement();
         }
 
-        return Response.status(HttpStatus.CREATED.value()).build();
+        return Response.status(HttpStatus.OK.value()).build();
     }
 }

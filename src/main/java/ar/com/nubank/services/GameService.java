@@ -31,7 +31,7 @@ public class GameService {
         addRobot(new Location(row,col), direction);
     }
 
-    public void addRobot(Location location, Direction direction) throws ElementAlreadyPresentException, GridNotInitializedException, CannotAddElementException {
+    public synchronized void addRobot(Location location, Direction direction) throws ElementAlreadyPresentException, GridNotInitializedException, CannotAddElementException {
         if (gridCache.getGrid() == null) {
             throw new GridNotInitializedException();
         }
@@ -48,12 +48,12 @@ public class GameService {
         }
     }
 
-    public void turnLeft(int row, int col) throws NoElementFoundInPosition, ElementNotMovableException {
+    public synchronized void turnLeft(int row, int col) throws NoElementFoundInPosition, ElementNotMovableException {
         Robot r = getRobotAtPosition(row, col);
         r.turnLeft();
     }
 
-    public void turnRight(int row, int col) throws NoElementFoundInPosition, ElementNotMovableException {
+    public synchronized void turnRight(int row, int col) throws NoElementFoundInPosition, ElementNotMovableException {
         Robot r = getRobotAtPosition(row, col);
 
         r.turnRight();
@@ -71,26 +71,26 @@ public class GameService {
     }
 
 
-    public void moveForward(int row, int col) throws NoElementFoundInPosition, ElementNotMovableException, CannotMoveElementException, ElementAlreadyPresentException, CannotClearElementAtPosition {
+    public synchronized void moveForward(int row, int col) throws NoElementFoundInPosition, ElementNotMovableException, CannotMoveElementException, ElementAlreadyPresentException, CannotClearElementAtPosition {
         Robot r = getRobotAtPosition(row, col);
 
         r.moveForward();
 
     }
 
-    public void moveBackward(int row, int col) throws NoElementFoundInPosition, ElementNotMovableException, CannotMoveElementException, ElementAlreadyPresentException, CannotClearElementAtPosition {
+    public synchronized void moveBackward(int row, int col) throws NoElementFoundInPosition, ElementNotMovableException, CannotMoveElementException, ElementAlreadyPresentException, CannotClearElementAtPosition {
         Robot r = getRobotAtPosition(row, col);
         r.moveBackward();
     }
 
-    public void attack(int row, int col) throws NoElementFoundInPosition, ElementNotMovableException, CannotClearElementAtPosition {
+    public synchronized void attack(int row, int col) throws NoElementFoundInPosition, ElementNotMovableException, CannotClearElementAtPosition {
         Robot r = getRobotAtPosition(row, col);
         r.attack();
 
 
     }
 
-    public void addDinosaur(int row, int col) throws ElementAlreadyPresentException, GridNotInitializedException, CannotAddElementException {
+    public synchronized void addDinosaur(int row, int col) throws ElementAlreadyPresentException, GridNotInitializedException, CannotAddElementException {
         if (gridCache.getGrid() == null) {
             throw new GridNotInitializedException();
         }
@@ -107,7 +107,7 @@ public class GameService {
         }
     }
 
-    public void createGrid(int x, int y) {
+    public synchronized void createGrid(int x, int y) {
         Grid grid = new Grid(x, y);
         gridCache.setGrid(grid);
 

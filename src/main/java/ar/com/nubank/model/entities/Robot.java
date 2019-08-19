@@ -22,11 +22,11 @@ public class Robot implements Entity,Movable {
 
 
 
-    public void turnLeft() {
+    public synchronized void turnLeft() {
         facingDirection = facingDirection.left();
     }
 
-    public void turnRight() {
+    public synchronized void turnRight() {
         facingDirection = facingDirection.right();
     }
 
@@ -42,7 +42,7 @@ public class Robot implements Entity,Movable {
     }
 
 
-    public void moveForward() throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
+    public synchronized void moveForward() throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
         int rowDest = this.row;
         int colDest = this.col;
         switch (facingDirection){
@@ -64,7 +64,7 @@ public class Robot implements Entity,Movable {
         this.col = colDest;
     }
 
-    public void moveBackward() throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
+    public synchronized void moveBackward() throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
         int rowDest = this.row;
         int colDest = this.col;
         switch (facingDirection){
@@ -86,7 +86,7 @@ public class Robot implements Entity,Movable {
         this.col = colDest;
     }
 
-    public void attack() throws CannotClearElementAtPosition {
+    public synchronized void attack() throws CannotClearElementAtPosition {
         gridCache.getGrid().clearElementAt(new Location(row-1,col));
         gridCache.getGrid().clearElementAt(new Location(row,col-1));
         gridCache.getGrid().clearElementAt(new Location(row+1,col));
@@ -94,7 +94,7 @@ public class Robot implements Entity,Movable {
 
     }
 
-    private void moveTo(Location to) throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
+    private  void moveTo(Location to) throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
         gridCache.getGrid().moveElement(new Location(this.row, this.col),to);
 
     }

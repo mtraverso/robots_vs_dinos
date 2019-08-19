@@ -17,7 +17,7 @@ public class Grid {
         return grid[loc.getRow()][loc.getCol()];
     }
 
-    public void clearElementAt(Location loc ) throws CannotClearElementAtPosition {
+    public synchronized void clearElementAt(Location loc ) throws CannotClearElementAtPosition {
         if(isOutOfBounds(loc)){
             throw new CannotClearElementAtPosition("Out of bounds");
         }
@@ -32,11 +32,11 @@ public class Grid {
         return grid[loc.getRow()][loc.getCol()] != null;
     }
 
-    public void setElementAt(Entity f, Location loc) {
+    public synchronized void setElementAt(Entity f, Location loc) {
         grid[loc.getRow()][loc.getCol()] = f;
     }
 
-    public void moveElement(Location from, Location to) throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
+    public synchronized void moveElement(Location from, Location to) throws CannotMoveElementException, NoElementFoundInPosition, ElementNotMovableException, ElementAlreadyPresentException, CannotClearElementAtPosition {
         if(getElementAt(from) == null){
             throw new NoElementFoundInPosition(from.getRow(),from.getCol());
         }

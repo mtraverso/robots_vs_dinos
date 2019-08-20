@@ -38,10 +38,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
     //Test adding a robot when grid is not initialized
     @Test
     public void testA_AddRobot(){
-        RobotLocation rl = new RobotLocation();
-        rl.setRow(1);
-        rl.setCol(1);
-        rl.setDirection(Direction.UP);
+        RobotLocation rl = new RobotLocation(1,1,Direction.UP);
 
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/robot",rl,String.class);
         Assert.that(resp.getStatusCode().equals(HttpStatus.FORBIDDEN), "Grid not ok");
@@ -51,10 +48,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
     //Test add robot after grid initialized
     @Test
     public void testB_CreateGridAddRobot(){
-        RobotLocation rl = new RobotLocation();
-        rl.setRow(1);
-        rl.setCol(1);
-        rl.setDirection(Direction.UP);
+        RobotLocation rl = new RobotLocation(1,1,Direction.UP);
 
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/grid",null, String.class);
         Assert.that(resp.getStatusCode().equals(HttpStatus.CREATED),"Error code different");
@@ -69,10 +63,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
     //Test adding a robot on same position than any other element.
     @Test
     public void testC_CreateGridAddRobot(){
-        RobotLocation rl = new RobotLocation();
-        rl.setRow(1);
-        rl.setCol(1);
-        rl.setDirection(Direction.UP);
+        RobotLocation rl = new RobotLocation(1,1,Direction.UP);
 
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/grid",null, String.class);
         Assert.that(resp.getStatusCode().equals(HttpStatus.CREATED),"Error code different");
@@ -88,10 +79,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
     //Test adding a robot out of bounds of grid.
     @Test
     public void testD_CreateGridAddRobotIllegalPosition(){
-        RobotLocation rl = new RobotLocation();
-        rl.setRow(-1);
-        rl.setCol(1);
-        rl.setDirection(Direction.UP);
+        RobotLocation rl = new RobotLocation(-1,1,Direction.UP);
 
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/grid",null, String.class);
         Assert.that(resp.getStatusCode().equals(HttpStatus.CREATED),"Error code different");
@@ -104,10 +92,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void testE_MoveRobotAround(){
-        RobotLocation rl = new RobotLocation();
-        rl.setRow(5);
-        rl.setCol(5);
-        rl.setDirection(Direction.UP);
+        RobotLocation rl = new RobotLocation(5,5,Direction.UP);
 
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/grid",null, String.class);
         Assert.that(resp.getStatusCode().equals(HttpStatus.CREATED),"Error code different");
@@ -120,10 +105,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void testF_MoveRobotAround(){
-        RobotLocation rl = new RobotLocation();
-        rl.setRow(5);
-        rl.setCol(5);
-        rl.setDirection(Direction.UP);
+        RobotLocation rl = new RobotLocation(5,5,Direction.UP);
 
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/grid",null, String.class);
         Assert.that(resp.getStatusCode().equals(HttpStatus.CREATED),"Error code different");
@@ -131,10 +113,8 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
         ResponseEntity<String> resp2 = testRestTemplate.postForEntity("/robot",rl,String.class);
         Assert.that(resp2.getStatusCode().equals(HttpStatus.CREATED),"Error code different");
 
-        Turn rt = new Turn();
-        rt.setCol(5);
-        rt.setRow(5);
-        rt.setTurnDirection(TurnDirection.RIGHT);
+        Turn rt = new Turn(5,5,TurnDirection.RIGHT);
+
 
         Entity e1  =gridCache.getGrid().getElementAt(5,5);
         Assert.that(e1 instanceof Robot,"Not a robot");
@@ -145,10 +125,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
         Assert.that(e2 instanceof Robot,"Not a robot");
         Assert.that(((Robot)e2).getFacingDirection().equals(Direction.RIGHT),"Orientation not correct");
 
-        Movement rm = new Movement();
-        rm.setCol(5);
-        rm.setRow(5);
-        rm.setMovementDirection(MovementDirection.FORWARD);
+        Movement rm = new Movement(5,5,MovementDirection.FORWARD);
 
         ResponseEntity<String> respMove = testRestTemplate.postForEntity("/robot/move",rm,String.class);
         Assert.that(respMove.getStatusCode().equals(HttpStatus.OK),"Executed ok");
@@ -158,10 +135,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
         Assert.that(((Robot)e3).getFacingDirection().equals(Direction.RIGHT),"Orientation not correct");
 
 
-        Turn rt2 = new Turn();
-        rt2.setCol(6);
-        rt2.setRow(5);
-        rt2.setTurnDirection(TurnDirection.LEFT);
+        Turn rt2 = new Turn(5,6,TurnDirection.LEFT);
 
         Entity e12  =gridCache.getGrid().getElementAt(5,6);
         Assert.that(e12 instanceof Robot,"Not a robot");
@@ -172,10 +146,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
         Assert.that(e22 instanceof Robot,"Not a robot");
         Assert.that(((Robot)e22).getFacingDirection().equals(Direction.UP),"Orientation not correct");
 
-        Movement rm2 = new Movement();
-        rm2.setCol(6);
-        rm2.setRow(5);
-        rm2.setMovementDirection(MovementDirection.BACKWARD);
+        Movement rm2 = new Movement(5,6,MovementDirection.BACKWARD);
 
         respMove = testRestTemplate.postForEntity("/robot/move",rm2,String.class);
         Assert.that(respMove.getStatusCode().equals(HttpStatus.OK),"Executed ok");
@@ -198,10 +169,7 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
         dLoc = new Location(5,1);
         ResponseEntity<String> resp2 = testRestTemplate.postForEntity("/dinosaur",dLoc,String.class);
         Assert.that(resp2.getStatusCode().equals(HttpStatus.CREATED),"Code not correct");
-        RobotLocation locRob = new RobotLocation();
-        locRob.setRow(2);
-        locRob.setCol(1);
-        locRob.setDirection(Direction.UP);
+        RobotLocation locRob = new RobotLocation(2,1,Direction.UP);
         ResponseEntity<String> resp3 = testRestTemplate.postForEntity("/robot",locRob,String.class);
         Assert.that(resp3.getStatusCode().equals(HttpStatus.CREATED),"Code not correct");
 
@@ -209,26 +177,21 @@ public class RobotIntegrationTest extends BaseIntegrationTest {
         testRestTemplate.postForEntity("/robot/attack",loc,String.class);
         Assert.that(gridCache.getGrid().getElementAt(1,1) == null,"Dino not destroyed");
 
-        Turn turn = new Turn();
-        turn.setCol(1);
-        turn.setRow(2);
-        turn.setTurnDirection(TurnDirection.RIGHT);
+        Turn turn = new Turn(2,1,TurnDirection.RIGHT);
         testRestTemplate.postForEntity("/robot/turn",turn,String.class);
         testRestTemplate.postForEntity("/robot/turn",turn,String.class);
         Entity e22  =gridCache.getGrid().getElementAt(2,1);
         Assert.that(e22 instanceof Robot,"Not a robot");
         Assert.that(((Robot)e22).getFacingDirection().equals(Direction.DOWN),"Orientation not correct");
 
-        Movement movement = new Movement();
-        movement.setMovementDirection(MovementDirection.FORWARD);
-        movement.setRow(2);
-        movement.setCol(1);
+        Movement movement = new Movement(2,1,MovementDirection.FORWARD);
         testRestTemplate.postForEntity("/robot/move",movement,String.class);
         Entity e23  =gridCache.getGrid().getElementAt(3,1);
         Assert.that(e23 instanceof Robot,"Not a robot");
         Assert.that(((Robot)e23).getFacingDirection().equals(Direction.DOWN),"Orientation not correct");
 
-        movement.setRow(3);
+        movement = new Movement(3,1,MovementDirection.FORWARD);
+
         testRestTemplate.postForEntity("/robot/move",movement,String.class);
         Entity e33  =gridCache.getGrid().getElementAt(4,1);
         Assert.that(e33 instanceof Robot,"Not a robot");

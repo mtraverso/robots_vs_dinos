@@ -19,12 +19,12 @@ import sun.jvm.hotspot.utilities.Assert;
 import static org.mockito.Mockito.*;
 
 
-@RunWith(MockitoJUnitRunner.class)
+
 
 public class TestRobotAddition {
 
     @InjectMocks
-    GameService robotService;
+    GameService gameService;
 
     @Mock
     GridCache gridCache;
@@ -40,7 +40,7 @@ public class TestRobotAddition {
     public void addRobotOk(){
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         try {
-            robotService.addRobot(5,5, Direction.UP);
+            gameService.addRobot(5,5, Direction.UP);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(false,"Exception thrown");
         }
@@ -59,8 +59,8 @@ public class TestRobotAddition {
     public void addRobotElementAlreadyPresent(){
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         try {
-            robotService.addRobot(5,5, Direction.UP);
-            robotService.addRobot(5,5, Direction.UP);
+            gameService.addRobot(5,5, Direction.UP);
+            gameService.addRobot(5,5, Direction.UP);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(e instanceof ElementAlreadyPresentException,"Exception not correct");
         }
@@ -79,7 +79,7 @@ public class TestRobotAddition {
     public void addRobotGridNotInit(){
         //when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         try {
-            robotService.addRobot(5,5, Direction.UP);
+            gameService.addRobot(5,5, Direction.UP);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(e instanceof GridNotInitializedException,"Exception not correct");
         }
@@ -89,7 +89,7 @@ public class TestRobotAddition {
     public void addRobotOutOfBounds(){
         when(gridCache.getGrid()).thenReturn(new Grid(50,50));
         try {
-            robotService.addRobot(0,-1, Direction.UP);
+            gameService.addRobot(0,-1, Direction.UP);
         } catch (ElementAlreadyPresentException | GridNotInitializedException | CannotAddElementException e) {
             Assert.that(e instanceof CannotAddElementException,"Exception not correct");
         }

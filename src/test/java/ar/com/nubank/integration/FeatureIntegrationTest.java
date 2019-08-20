@@ -62,10 +62,7 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
 
         testRestTemplate.postForEntity("/grid",null,String.class);
 
-        RobotLocation robotLocation = new RobotLocation();
-        robotLocation.setDirection(Direction.UP);
-        robotLocation.setRow(5);
-        robotLocation.setCol(5);
+        RobotLocation robotLocation = new RobotLocation(5,5,Direction.UP);
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/robot",robotLocation,String.class);
 
 
@@ -80,10 +77,7 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
     public void createDinosaur(){
         testRestTemplate.postForEntity("/grid",null,String.class);
 
-        Location loc = new Location();
-        loc.setRow(5);
-        loc.setCol(4);
-
+        Location loc = new Location(5,4);
 
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/dinosaur",loc,String.class);
         Assert.that(resp.getStatusCode().equals(HttpStatus.CREATED),"Not created ok");
@@ -96,17 +90,11 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
     public void move(){
         testRestTemplate.postForEntity("/grid",null,String.class);
 
-        RobotLocation robotLocation = new RobotLocation();
-        robotLocation.setDirection(Direction.UP);
-        robotLocation.setRow(5);
-        robotLocation.setCol(5);
+        RobotLocation robotLocation = new RobotLocation(5,5, Direction.UP);
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/robot",robotLocation,String.class);
 
         //Turn left
-        Turn turnLeft = new Turn();
-        turnLeft.setTurnDirection(TurnDirection.LEFT);
-        turnLeft.setRow(5);
-        turnLeft.setCol(5);
+        Turn turnLeft = new Turn(5,5,TurnDirection.LEFT);
 
         ResponseEntity<String> respTurn = testRestTemplate.postForEntity("/robot/turn",turnLeft,String.class);
         Assert.that(respTurn.getStatusCode().equals(HttpStatus.OK),"Executed ok");
@@ -117,10 +105,7 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
         Assert.that(r1.getFacingDirection().equals(Direction.LEFT),"Direction not ok");
 
         //Turn right
-        Turn turnRight = new Turn();
-        turnRight.setTurnDirection(TurnDirection.RIGHT);
-        turnRight.setRow(5);
-        turnRight.setCol(5);
+        Turn turnRight = new Turn(5,5,TurnDirection.RIGHT);
 
         respTurn = testRestTemplate.postForEntity("/robot/turn",turnRight,String.class);
         Assert.that(respTurn.getStatusCode().equals(HttpStatus.OK),"Executed ok");
@@ -131,10 +116,7 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
         Assert.that(r2.getFacingDirection().equals(Direction.UP),"Direction not ok");
 
         //Move forward
-        Movement moveForward = new Movement();
-        moveForward.setMovementDirection(MovementDirection.FORWARD);
-        moveForward.setRow(5);
-        moveForward.setCol(5);
+        Movement moveForward = new Movement(5,5,MovementDirection.FORWARD);
 
         ResponseEntity<String> respMove = testRestTemplate.postForEntity("/robot/move",moveForward,String.class);
         Assert.that(respMove.getStatusCode().equals(HttpStatus.OK),"Executed ok");
@@ -147,10 +129,7 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
         Assert.that(e3 instanceof Robot, "Not a robot");
 
         //Move backward
-        Movement moveBackward = new Movement();
-        moveBackward.setMovementDirection(MovementDirection.BACKWARD);
-        moveBackward.setRow(4);
-        moveBackward.setCol(5);
+        Movement moveBackward = new Movement(4,5,MovementDirection.BACKWARD);
 
         respMove = testRestTemplate.postForEntity("/robot/move",moveBackward,String.class);
         Assert.that(respMove.getStatusCode().equals(HttpStatus.OK),"Executed ok");
@@ -171,32 +150,19 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
     public void attack(){
         testRestTemplate.postForEntity("/grid",null,String.class);
 
-        RobotLocation robotLocation = new RobotLocation();
-        robotLocation.setDirection(Direction.UP);
-        robotLocation.setRow(5);
-        robotLocation.setCol(5);
+        RobotLocation robotLocation = new RobotLocation(5,5,Direction.UP);
         ResponseEntity<String> resp = testRestTemplate.postForEntity("/robot",robotLocation,String.class);
 
         //Add dinosaur
-        Location dino1 = new Location();
-        dino1.setRow(4);
-        dino1.setCol(5);
+        Location dino1 = new Location(4,5);
 
-        Location dino2 = new Location();
-        dino2.setRow(5);
-        dino2.setCol(4);
+        Location dino2 = new Location(5,4);
 
-        Location dino3 = new Location();
-        dino3.setRow(5);
-        dino3.setCol(6);
+        Location dino3 = new Location(5,6);
 
-        Location dino4 = new Location();
-        dino4.setRow(6);
-        dino4.setCol(5);
+        Location dino4 = new Location(6,5);
 
-        Location attack = new Location();
-        attack.setCol(5);
-        attack.setRow(5);
+        Location attack = new Location(5,5);
 
         testRestTemplate.postForEntity("/dinosaur",dino1,String.class);
         testRestTemplate.postForEntity("/dinosaur",dino2,String.class);
@@ -249,19 +215,13 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
 
         testRestTemplate.postForEntity("/dinosaur",loc,String.class);
 
-        Movement movement = new Movement();
-        movement.setRow(5);
-        movement.setCol(5);
-        movement.setMovementDirection(MovementDirection.FORWARD);
+        Movement movement = new Movement(5,5,MovementDirection.FORWARD);
 
         ResponseEntity<String> respMove = testRestTemplate.postForEntity("/robot/move",movement,String.class);
 
         Assert.that(respMove.getStatusCode().equals(HttpStatus.FORBIDDEN),"Wrong status code");
 
-        Turn turn = new Turn();
-        turn.setRow(5);
-        turn.setCol(5);
-        turn.setTurnDirection(TurnDirection.LEFT);
+        Turn turn = new Turn(5,5,TurnDirection.LEFT);
 
         ResponseEntity<String> respTurn = testRestTemplate.postForEntity("/robot/turn",turn,String.class);
 
@@ -291,10 +251,7 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
     public void conflict(){
         testRestTemplate.postForEntity("/grid",null,String.class);
 
-        RobotLocation robotLocation = new RobotLocation();
-        robotLocation.setRow(0);
-        robotLocation.setCol(0);
-        robotLocation.setDirection(Direction.UP);
+        RobotLocation robotLocation = new RobotLocation(0,0,Direction.UP);
 
         //Adding first robot
         testRestTemplate.postForEntity("/robot",robotLocation,String.class);
@@ -311,7 +268,7 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
         ResponseEntity<String> firstRobotConflict = testRestTemplate.postForEntity("/robot",robotLocation,String.class);
 
         //Adding robot in dinosaur position
-        robotLocation.setRow(1);
+        robotLocation = new RobotLocation(1,0,Direction.UP);
         ResponseEntity<String> secondRobotConflict = testRestTemplate.postForEntity("/robot",robotLocation,String.class);
 
         //Adding dinosaur in dinosaur position
@@ -329,50 +286,26 @@ public class FeatureIntegrationTest extends BaseIntegrationTest {
     public void outOfBounds(){
         testRestTemplate.postForEntity("/grid",null,String.class);
 
-        RobotLocation upper = new RobotLocation();
-        upper.setRow(0);
-        upper.setCol(0);
-        upper.setDirection(Direction.UP);
+        RobotLocation upper = new RobotLocation(0,0,Direction.UP);
 
-        RobotLocation lower = new RobotLocation();
-        lower.setRow(49);
-        lower.setCol(0);
-        lower.setDirection(Direction.DOWN);
+        RobotLocation lower = new RobotLocation(49,0,Direction.DOWN);
 
-        RobotLocation left = new RobotLocation();
-        left.setRow(49);
-        left.setCol(0);
-        left.setDirection(Direction.LEFT);
+        RobotLocation left = new RobotLocation(49,0,Direction.LEFT);
 
-        RobotLocation right = new RobotLocation();
-        right.setRow(0);
-        right.setCol(49);
-        right.setDirection(Direction.RIGHT);
+        RobotLocation right = new RobotLocation(0,49,Direction.RIGHT);
 
         testRestTemplate.postForEntity("/robot",upper,String.class);
         testRestTemplate.postForEntity("/robot",lower,String.class);
         testRestTemplate.postForEntity("/robot",left,String.class);
         testRestTemplate.postForEntity("/robot",right,String.class);
 
-        Movement moveUp = new Movement();
-        moveUp.setMovementDirection(MovementDirection.FORWARD);
-        moveUp.setRow(upper.getRow());
-        moveUp.setCol(upper.getCol());
+        Movement moveUp = new Movement(upper.getRow(),upper.getCol(),MovementDirection.FORWARD);
 
-        Movement moveDown = new Movement();
-        moveDown.setMovementDirection(MovementDirection.FORWARD);
-        moveDown.setRow(lower.getRow());
-        moveDown.setCol(lower.getCol());
+        Movement moveDown = new Movement(lower.getRow(),lower.getCol(),MovementDirection.FORWARD);
 
-        Movement moveRight = new Movement();
-        moveRight.setMovementDirection(MovementDirection.FORWARD);
-        moveRight.setRow(right.getRow());
-        moveRight.setCol(right.getCol());
+        Movement moveRight = new Movement(right.getRow(),right.getCol(),MovementDirection.FORWARD);
 
-        Movement moveLeft = new Movement();
-        moveLeft.setMovementDirection(MovementDirection.FORWARD);
-        moveLeft.setRow(left.getRow());
-        moveLeft.setCol(left.getCol());
+        Movement moveLeft = new Movement(left.getRow(),left.getCol(),MovementDirection.FORWARD);
 
         ResponseEntity<String> respUp = testRestTemplate.postForEntity("/robot/move",moveUp,String.class);
         ResponseEntity<String> respDown = testRestTemplate.postForEntity("/robot/move",moveDown,String.class);

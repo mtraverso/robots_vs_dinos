@@ -3,8 +3,8 @@ package ar.com.nubank.model.entities;
 public class Dinosaur implements Entity {
 
 
-    private int row;
-    private int col;
+    private final int row;
+    private final int col;
 
     public Dinosaur(int row, int col) {
 

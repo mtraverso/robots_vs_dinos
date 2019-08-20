@@ -14,14 +14,14 @@ public enum Direction {
             return RIGHT;
         }
 
-        String value="↑";
+        final String value="↑";
 
         public String getValue() {
             return value;
         }
     },
     DOWN{
-        String value="↓";
+        final String value="↓";
 
         @Override
         public Direction left() {
@@ -39,7 +39,7 @@ public enum Direction {
         }
     },
     LEFT{
-        String value="←";
+        final String value="←";
         @Override
         public String getValue() {
             return value;
@@ -56,7 +56,7 @@ public enum Direction {
         }
     },
     RIGHT{
-        String value="→";
+        final String value="→";
         @Override
         public String getValue() {
             return value;

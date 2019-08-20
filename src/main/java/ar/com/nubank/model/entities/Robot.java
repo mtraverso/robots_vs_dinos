@@ -10,7 +10,7 @@ public class Robot implements Entity,Movable {
     private int row;
     private int col;
     private Direction facingDirection;
-    private GridCache gridCache;
+    private final GridCache gridCache;
 
     public Robot(Location loc, Direction facingDirection, GridCache gridCache) {
 

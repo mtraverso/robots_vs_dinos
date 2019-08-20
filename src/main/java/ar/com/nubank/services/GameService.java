@@ -17,12 +17,12 @@ public class GameService {
 
 
 
+    private final GridCache gridCache;
+
     @Autowired
-    private GridCache gridCache;
 
-
-    public GameService() {
-
+    public GameService(GridCache gridCache) {
+        this.gridCache = gridCache;
 
 
     }
